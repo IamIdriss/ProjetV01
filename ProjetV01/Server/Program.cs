@@ -1,4 +1,7 @@
-using Microsoft.AspNetCore.ResponseCompression;
+﻿using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ProjetV01.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<ProjetV01DbContext>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ProjetV01DbContext") ?? throw new InvalidOperationException("Connection string 'ProjetV01DbContext' not found.")));
 
 var app = builder.Build();
 
